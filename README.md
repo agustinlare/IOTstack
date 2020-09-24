@@ -15,9 +15,20 @@ $ sudo systemctl enable telegraf
 
 
 ## NFS-Server
+```=bash
 chmod -R 777 /mnt/sda
 chown -R pi:pi /mnt/sda
 sudo apt install nfs-kernel-server nfs-common rpcbind -y
+exportfs -ra
+showmount -e 192.168.0.183
+systemctl enable rpcbind
+systemctl enable nfs-kernel-server
+# Si tira que error: https://blog.ruanbekker.com/blog/2017/12/09/unmask-a-masked-service-in-systemd/
+systemctl enable nfs-common
+systemctl start rpcbind
+systemctl start nfs-kernel-server
+systemctl start nfs-common
+```
 
 ## Announcements
 
