@@ -13,6 +13,12 @@ Archivo de configuracion: /etc/telegraf/telegraf.conf
 $ sudo systemctl start telegraf
 $ sudo systemctl enable telegraf
 
+
+## NFS-Server
+chmod -R 777 /mnt/sda
+chown -R pi:pi /mnt/sda
+sudo apt install nfs-kernel-server nfs-common rpcbind -y
+
 ## Announcements
 
 The bulk of the README has moved to the Wiki. Please check it out [here](https://github.com/gcgarner/IOTstack/wiki)
