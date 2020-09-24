@@ -2,6 +2,17 @@
 
 IOTstack is a builder for docker-compose to easily make and maintain IoT stacks on the Raspberry Pi
 
+## Telegraf instalacion por fuera del stack
+$ curl -sL https://repos.influxdata.com/influxdb.key | sudo apt-key add -
+$ echo "deb https://repos.influxdata.com/debian stretch stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
+$ sudo apt-get update 
+$ sudo apt-get install telegraf
+
+Archivo de configuracion: /etc/telegraf/telegraf.conf
+
+$ sudo systemctl start telegraf
+$ sudo systemctl enable telegraf
+
 ## Announcements
 
 The bulk of the README has moved to the Wiki. Please check it out [here](https://github.com/gcgarner/IOTstack/wiki)
