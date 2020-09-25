@@ -2,33 +2,6 @@
 
 IOTstack is a builder for docker-compose to easily make and maintain IoT stacks on the Raspberry Pi
 
-## Telegraf instalacion por fuera del stack
-$ curl -sL https://repos.influxdata.com/influxdb.key | sudo apt-key add -
-$ echo "deb https://repos.influxdata.com/debian stretch stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
-$ sudo apt-get update 
-$ sudo apt-get install telegraf
-
-Archivo de configuracion: /etc/telegraf/telegraf.conf
-
-$ sudo systemctl start telegraf
-$ sudo systemctl enable telegraf
-
-
-## NFS-Server
-```=bash
-chmod -R 777 /mnt/sda
-chown -R pi:pi /mnt/sda
-sudo apt install nfs-kernel-server nfs-common rpcbind -y
-exportfs -ra
-showmount -e 192.168.0.183
-systemctl enable rpcbind
-systemctl enable nfs-kernel-server
-# Si tira que error: https://blog.ruanbekker.com/blog/2017/12/09/unmask-a-masked-service-in-systemd/
-systemctl enable nfs-common
-systemctl start rpcbind
-systemctl start nfs-kernel-server
-systemctl start nfs-common
-```
 
 ## Announcements
 

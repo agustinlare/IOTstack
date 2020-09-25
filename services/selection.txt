@@ -1,0 +1,6 @@
+portainer
+influxdb
+grafana
+pihole
+plex
+qbittorrent
