@@ -9,7 +9,7 @@ services:
       - 9000:9000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./volumes/portainer/data:/data
+      - /mnt/sda/docker/volumes/portainer/data:/data
 
   influxdb:
     container_name: influxdb
@@ -22,8 +22,8 @@ services:
     env_file:
       - ./services/influxdb/influxdb.env
     volumes:
-      - ./volumes/influxdb/data:/var/lib/influxdb
-      - ./backups/influxdb/db:/var/lib/influxdb/backup
+      - /mnt/sda/docker/volumes/influxdb/data:/var/lib/influxdb
+      - /mnt/sda/docker/backups/influxdb/db:/var/lib/influxdb/backup
 
   grafana:
     container_name: grafana
@@ -35,8 +35,8 @@ services:
     env_file:
       - ./services/grafana/grafana.env
     volumes:
-      - ./volumes/grafana/data:/var/lib/grafana
-      - ./volumes/grafana/log:/var/log/grafana
+      - /mnt/sda/docker/volumes/grafana/data:/var/lib/grafana
+      - /mnt/sda/docker/volumes/grafana/log:/var/log/grafana
 
   pihole:
     container_name: pihole
@@ -50,8 +50,8 @@ services:
     env_file:
       - ./services/pihole/pihole.env
     volumes:
-       - ./volumes/pihole/etc-pihole/:/etc/pihole/
-       - ./volumes/pihole/etc-dnsmasq.d/:/etc/dnsmasq.d/
+       - /mnt/sda/docker/volumes/pihole/etc-pihole/:/etc/pihole/
+       - /mnt/sda/docker/volumes/pihole/etc-dnsmasq.d/:/etc/dnsmasq.d/
     dns:
       - 127.0.0.1
       - 1.1.1.1
@@ -71,10 +71,10 @@ services:
       - VERSION=docker
       #- UMASK_SET=022 #optional
     volumes:
-      - ./volumes/plex/config:/config
+      - /mnt/sda/docker/volumes/plex/config:/config
       #- ~/mnt/HDD/tvseries:/tv
       #- ~/mnt/HDD/movies:/movies
-      - ./volumes/plex/transcode:/transcode
+      - /mnt/sda/docker/volumes/plex/transcode:/transcode
     restart: unless-stopped
 
   qbittorrent:
@@ -86,8 +86,8 @@ services:
       - UMASK_SET=022
       - WEBUI_PORT=15080
     volumes:
-      - ./volumes/qbittorrent/config:/config
-      - ./volumes/qbittorrent/downloads:/downloads
+      - /mnt/sda/docker/volumes/qbittorrent/config:/config
+      - /mnt/sda/docker/volumes/qbittorrent/downloads:/downloads
     ports:
       - 6881:6881
       - 6881:6881/udp
