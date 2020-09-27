@@ -2,6 +2,8 @@ version: '2'
 services:
 
   portainer:
+    labels:
+      - "docker.group=IOTstack"
     container_name: portainer
     image: portainer/portainer
     restart: unless-stopped
@@ -12,6 +14,8 @@ services:
       - /mnt/sda/docker/volumes/portainer/data:/data
 
   influxdb:
+    labels:
+        - "docker.group=IOTstack"
     container_name: influxdb
     image: "influxdb:latest"
     restart: unless-stopped
@@ -26,6 +30,8 @@ services:
       - /mnt/sda/docker/backups/influxdb/db:/var/lib/influxdb/backup
 
   grafana:
+    labels:
+      - "docker.group=IOTstack"
     container_name: grafana
     image: grafana/grafana:6.3.6
     restart: unless-stopped
@@ -39,6 +45,8 @@ services:
       - /mnt/sda/docker/volumes/grafana/log:/var/log/grafana
 
   pihole:
+    labels:
+      - "docker.group=IOTstack"
     container_name: pihole
     image: pihole/pihole:latest
     ports:
@@ -62,6 +70,8 @@ services:
     restart: unless-stopped
 
   plex:
+    labels:
+      - "docker.group=IOTstack"
     image: linuxserver/plex
     container_name: plex
     network_mode: host
@@ -78,6 +88,8 @@ services:
     restart: unless-stopped
 
   qbittorrent:
+    labels:
+      - "docker.group=IOTstack"
     image: linuxserver/qbittorrent
     container_name: qbittorrent
     environment:
@@ -93,3 +105,27 @@ services:
       - 6881:6881/udp
       - 15080:15080
       - 1080:1080
+
+  # DEPCRECADO A FAVOR DE FILEBROWSER
+  # cdn:
+  #   image: agustinlare/cdn
+  #   container_name: cdn
+  #   environment:
+  #     - SERVE_PATH=/public
+  #     - SERVER_PREFIX=/
+  #   volumes:
+  #     - /mnt/sda:/public
+  #   ports:
+  #     - 80:80
+
+  filebrowser:
+    labels:
+      - "docker.group=IOTstack"
+    image: filebrowser/filebrowser:pi
+    container_name: filebrowser
+    volumes:
+      - /mnt/sda:/srv
+      - /mnt/sda/docker/volumes/filebrowser/database.db:/database.db
+      - /mnt/sda/docker/volumes/filebrowser/.filebrowser.json:/.filebrowser.json
+    ports:
+      - 80:80
