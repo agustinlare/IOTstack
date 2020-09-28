@@ -5,13 +5,13 @@ services:
     labels:
       - "docker.group=IOTstack"
     container_name: portainer
-    image: portainer/portainer
+    image: portainer/portainer-ce
     restart: unless-stopped
     ports:
       - 9000:9000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /mnt/sda/docker/volumes/portainer/data:/data
+      - /mnt/sda/docker/volumes/portainer-ce/data:/data
 
   influxdb:
     labels:
