@@ -2,6 +2,11 @@
 
 IOTstack is a builder for docker-compose to easily make and maintain IoT stacks on the Raspberry Pi
 
+## Influx db retention policy
+
+`CREATE RETENTION POLICY telegrafx5 ON telegraf DURATION 5d REPLICATION 1 DEFAULT`
+
+
 
 ## Announcements
 
