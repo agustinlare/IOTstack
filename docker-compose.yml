@@ -2,20 +2,16 @@ version: '2'
 services:
 
   portainer:
-    labels:
-      - "docker.group=IOTstack"
     container_name: portainer
-    image: portainer/portainer-ce
+    image: portainer/portainer
     restart: unless-stopped
     ports:
       - 9000:9000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /mnt/sda/docker/volumes/portainer-ce/data:/data
+      - ./volumes/portainer/data:/data
 
   influxdb:
-    labels:
-        - "docker.group=IOTstack"
     container_name: influxdb
     image: "influxdb:latest"
     restart: unless-stopped
@@ -26,12 +22,10 @@ services:
     env_file:
       - ./services/influxdb/influxdb.env
     volumes:
-      - /mnt/sda/docker/volumes/influxdb/data:/var/lib/influxdb
-      - /mnt/sda/docker/backups/influxdb/db:/var/lib/influxdb/backup
+      - ./volumes/influxdb/data:/var/lib/influxdb
+      - ./backups/influxdb/db:/var/lib/influxdb/backup
 
   grafana:
-    labels:
-      - "docker.group=IOTstack"
     container_name: grafana
     image: grafana/grafana:6.3.6
     restart: unless-stopped
@@ -41,12 +35,22 @@ services:
     env_file:
       - ./services/grafana/grafana.env
     volumes:
-      - /mnt/sda/docker/volumes/grafana/data:/var/lib/grafana
-      - /mnt/sda/docker/volumes/grafana/log:/var/log/grafana
+      - ./volumes/grafana/data:/var/lib/grafana
+      - ./volumes/grafana/log:/var/log/grafana
+
+  mariadb:
+    image: linuxserver/mariadb
+    container_name: mariadb
+    env_file:
+      - ./services/mariadb/mariadb.env
+    volumes:
+      - ./volumes/mariadb/config:/config
+    ports:
+      - 3306:3306
+    restart: unless-stopped
+
 
   pihole:
-    labels:
-      - "docker.group=IOTstack"
     container_name: pihole
     image: pihole/pihole:latest
     ports:
@@ -58,8 +62,8 @@ services:
     env_file:
       - ./services/pihole/pihole.env
     volumes:
-       - /mnt/sda/docker/volumes/pihole/etc-pihole/:/etc/pihole/
-       - /mnt/sda/docker/volumes/pihole/etc-dnsmasq.d/:/etc/dnsmasq.d/
+       - ./volumes/pihole/etc-pihole/:/etc/pihole/
+       - ./volumes/pihole/etc-dnsmasq.d/:/etc/dnsmasq.d/
     dns:
       - 127.0.0.1
       - 1.1.1.1
@@ -70,8 +74,6 @@ services:
     restart: unless-stopped
 
   plex:
-    labels:
-      - "docker.group=IOTstack"
     image: linuxserver/plex
     container_name: plex
     network_mode: host
@@ -81,15 +83,13 @@ services:
       - VERSION=docker
       #- UMASK_SET=022 #optional
     volumes:
-      - /mnt/sda/docker/volumes/plex/config:/config
+      - ./volumes/plex/config:/config
       #- ~/mnt/HDD/tvseries:/tv
       #- ~/mnt/HDD/movies:/movies
-      - /mnt/sda/docker/volumes/plex/transcode:/transcode
+      - ./volumes/plex/transcode:/transcode
     restart: unless-stopped
 
   qbittorrent:
-    labels:
-      - "docker.group=IOTstack"
     image: linuxserver/qbittorrent
     container_name: qbittorrent
     environment:
@@ -98,34 +98,10 @@ services:
       - UMASK_SET=022
       - WEBUI_PORT=15080
     volumes:
-      - /mnt/sda/docker/volumes/qbittorrent/config:/config
-      - /mnt/sda/docker/volumes/qbittorrent/downloads:/downloads
+      - ./volumes/qbittorrent/config:/config
+      - ./volumes/qbittorrent/downloads:/downloads
     ports:
       - 6881:6881
       - 6881:6881/udp
       - 15080:15080
       - 1080:1080
-
-  # DEPCRECADO A FAVOR DE FILEBROWSER
-  # cdn:
-  #   image: agustinlare/cdn
-  #   container_name: cdn
-  #   environment:
-  #     - SERVE_PATH=/public
-  #     - SERVER_PREFIX=/
-  #   volumes:
-  #     - /mnt/sda:/public
-  #   ports:
-  #     - 80:80
-
-  filebrowser:
-    labels:
-      - "docker.group=IOTstack"
-    image: filebrowser/filebrowser:pi
-    container_name: filebrowser
-    volumes:
-      - /mnt/sda:/srv
-      - /mnt/sda/docker/volumes/filebrowser/database.db:/database.db
-      - /mnt/sda/docker/volumes/filebrowser/.filebrowser.json:/.filebrowser.json
-    ports:
-      - 80:80
