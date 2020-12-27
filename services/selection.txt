@@ -2,6 +2,7 @@ portainer
 influxdb
 grafana
 mariadb
+postgres
 pihole
 plex
 qbittorrent

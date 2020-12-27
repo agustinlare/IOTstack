@@ -50,6 +50,17 @@ services:
     restart: unless-stopped
 
 
+  postgres:
+    container_name: postgres
+    image: postgres
+    restart: unless-stopped
+    env_file:
+      - ./services/postgres/postgres.env
+    ports:
+      - 5432:5432
+    volumes:
+      - ./volumes/postgres/data:/var/lib/postgresql/data
+
   pihole:
     container_name: pihole
     image: pihole/pihole:latest
