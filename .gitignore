@@ -2,3 +2,5 @@
 /volumes/
 /backups/
 .outofdate
+.DS_Store
+._.DS_Store
